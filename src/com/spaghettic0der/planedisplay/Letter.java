@@ -2,16 +2,27 @@ package com.spaghettic0der.planedisplay;
 
 public class Letter
 {
-    private char letter;
+    private char realLetter;
+    private char currentLetter = Letters.A.toString().toCharArray()[0];
     private int letterNumber;
 
-    public Letter(char letter)
+    public Letter(char realLetter)
     {
-        this.letter = letter;
+        this.realLetter = realLetter;
     }
 
-    public char getLetter()
+    public char getRealLetter()
     {
-        return letter;
+        return realLetter;
+    }
+
+    public char getCurrentLetter()
+    {
+        return currentLetter;
+    }
+
+    public void setCurrentLetter(char currentLetter)
+    {
+        this.currentLetter = currentLetter;
     }
 }

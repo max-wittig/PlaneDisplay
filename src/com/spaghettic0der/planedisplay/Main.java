@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -34,7 +35,7 @@ public class Main extends Application
             public void handle(ActionEvent event)
             {
                 display.setText(textField.getText());
-                updateUI();
+                updateAndWait();
             }
         });
         HBox inputHBox = new HBox(textField, showButton);
@@ -44,7 +45,39 @@ public class Main extends Application
         scene = new Scene(root);
     }
 
-    private void updateUI()
+    private void updateAndWait()
+    {
+        Thread thread = new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                updateUI();
+            }
+        });
+        thread.setDaemon(true);
+        thread.start();
+    }
+
+    private void sleep()
+    {
+        try
+        {
+            Thread.sleep(100);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void clearScreen()
+    {
+        letterHBox.getChildren().clear();
+    }
+
+    private void addEmptyLetterButtons()
     {
         for(Letter letter : display.getLetterArrayList())
         {
@@ -53,12 +86,59 @@ public class Main extends Application
                 @Override
                 public void run()
                 {
-                    Button button = new Button(String.valueOf(letter.getLetter()));
+                    Button button = new Button(Letters.A.toString());
+                    button.setPrefSize(100,100);
+                    button.setStyle("-fx-background-color: black; -fx-font-size: 50px");
                     letterHBox.getChildren().add(button);
                 }
             });
-
         }
+    }
+
+    private void setButtonText(Button button, String text)
+    {
+        Platform.runLater(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                button.setText(text);
+            }
+        });
+    }
+
+    private void setRealLetters()
+    {
+        int j=0;
+        for(Node currentNode : letterHBox.getChildren())
+        {
+
+            Button currentButton = (Button)currentNode;
+            for (int i = 0; i < Letters.values().length; i++)
+            {
+                final String buttonText = Letters.values()[i].toString();
+                setButtonText(currentButton, buttonText);
+                sleep();
+                System.out.println(buttonText.toCharArray()[0]);
+                System.out.println(display.getLetterArrayList().get(j).getRealLetter());
+
+                if(display.getLetterArrayList().get(j).getRealLetter() == Letters.values()[i].toString().toCharArray()[0])
+                {
+                    break;
+                }
+            }
+            j++;
+        }
+    }
+
+    private void updateUI()
+    {
+
+        addEmptyLetterButtons();
+        sleep();
+        setRealLetters();
+
+
     }
 
     private void initDisplay()
@@ -71,24 +151,6 @@ public class Main extends Application
     {
         initDisplay();
         initUI();
-        Thread thread = new Thread(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                updateUI();
-                try
-                {
-                    Thread.sleep(1000);
-                }
-                catch (InterruptedException e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        });
-        thread.setDaemon(true);
-        thread.start();
 
         primaryStage.setScene(scene);
         primaryStage.show();

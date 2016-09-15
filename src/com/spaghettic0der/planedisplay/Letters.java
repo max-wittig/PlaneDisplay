@@ -38,6 +38,13 @@ public enum Letters
     SEVEN,
     EIGHT,
     NINE,
-    TEN
+    TEN;
+
+    private static Letters[] letters = values();
+
+    public Letters getNext()
+    {
+        return letters[(this.ordinal() + 1) % letters.length];
+    }
 
 }
