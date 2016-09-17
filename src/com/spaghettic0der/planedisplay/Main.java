@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -16,7 +17,7 @@ public class Main extends Application
 {
     private VBox root;
     private Scene scene;
-    private HBox letterHBox;
+    private FlowPane letterFlowPane;
     private Display display;
 
     public static void main(String[] args)
@@ -26,7 +27,6 @@ public class Main extends Application
 
     private void initUI()
     {
-
         TextField textField = new TextField();
         Button showButton = new Button("SHOW");
         showButton.setOnAction(new EventHandler<ActionEvent>()
@@ -39,9 +39,10 @@ public class Main extends Application
             }
         });
         HBox inputHBox = new HBox(textField, showButton);
-        letterHBox = new HBox();
-        letterHBox.setMinSize(1000, 100);
-        root = new VBox(inputHBox, letterHBox);
+        letterFlowPane = new FlowPane();
+        letterFlowPane.setMinSize(1800, 500);
+        root = new VBox(inputHBox, letterFlowPane);
+        root.setStyle("-fx-background-color: black");
         scene = new Scene(root);
     }
 
@@ -63,7 +64,7 @@ public class Main extends Application
     {
         try
         {
-            Thread.sleep(100);
+            Thread.sleep(30);
         }
         catch (Exception e)
         {
@@ -74,7 +75,7 @@ public class Main extends Application
 
     private void clearScreen()
     {
-        letterHBox.getChildren().clear();
+        letterFlowPane.getChildren().clear();
     }
 
     private void addEmptyLetterButtons()
@@ -87,9 +88,9 @@ public class Main extends Application
                 public void run()
                 {
                     Button button = new Button(Letters.A.toString());
-                    button.setPrefSize(100,100);
-                    button.setStyle("-fx-background-color: black; -fx-font-size: 50px");
-                    letterHBox.getChildren().add(button);
+                    button.setPrefSize(100, 100);
+                    button.setStyle("-fx-background-color: black; -fx-font-size: 40px");
+                    letterFlowPane.getChildren().add(button);
                 }
             });
         }
@@ -110,9 +111,8 @@ public class Main extends Application
     private void setRealLetters()
     {
         int j=0;
-        for(Node currentNode : letterHBox.getChildren())
+        for(Node currentNode : letterFlowPane.getChildren())
         {
-
             Button currentButton = (Button)currentNode;
             for (int i = 0; i < Letters.values().length; i++)
             {
@@ -122,7 +122,9 @@ public class Main extends Application
                 System.out.println(buttonText.toCharArray()[0]);
                 System.out.println(display.getLetterArrayList().get(j).getRealLetter());
 
-                if(display.getLetterArrayList().get(j).getRealLetter() == Letters.values()[i].toString().toCharArray()[0])
+                if(display.getLetterArrayList().get(j).getRealLetter()
+                        ==
+                        Letters.values()[i].toString().toCharArray()[0])
                 {
                     break;
                 }
@@ -133,12 +135,9 @@ public class Main extends Application
 
     private void updateUI()
     {
-
         addEmptyLetterButtons();
         sleep();
         setRealLetters();
-
-
     }
 
     private void initDisplay()

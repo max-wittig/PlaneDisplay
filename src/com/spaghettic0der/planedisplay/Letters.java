@@ -1,6 +1,8 @@
 package com.spaghettic0der.planedisplay;
 
 
+import com.sun.corba.se.spi.extension.ZeroPortPolicy;
+
 public enum Letters
 {
     A,
@@ -23,22 +25,132 @@ public enum Letters
     R,
     S,
     T,
+    U,
+    V,
+    W,
     X,
     Y,
     Z,
-    ZERO,
-    MINUS,
-    PLUS,
-    ONE,
-    TWO,
-    THREE,
-    FOUR,
-    FIVE,
-    SIX,
-    SEVEN,
-    EIGHT,
-    NINE,
-    TEN;
+    ZERO
+            {
+                @Override
+                public String toString()
+                {
+                    return "0";
+                }
+            },
+    MINUS
+            {
+                @Override
+                public String toString()
+                {
+                    return "-";
+                }
+            },
+    PLUS
+            {
+                @Override
+                public String toString()
+                {
+                    return "+";
+                }
+            },
+    ONE
+            {
+                @Override
+                public String toString()
+                {
+                    return "1";
+                }
+            },
+    TWO
+            {
+                @Override
+                public String toString()
+                {
+                    return "2";
+                }
+            },
+    THREE
+            {
+                @Override
+                public String toString()
+                {
+                    return "3";
+                }
+            },
+    FOUR
+            {
+                @Override
+                public String toString()
+                {
+                    return "4";
+                }
+            },
+    FIVE
+            {
+                @Override
+                public String toString()
+                {
+                    return "5";
+                }
+            },
+    SIX
+            {
+                @Override
+                public String toString()
+                {
+                    return "6";
+                }
+            },
+    SEVEN
+            {
+                @Override
+                public String toString()
+                {
+                    return "7";
+                }
+            },
+    EIGHT
+            {
+                @Override
+                public String toString()
+                {
+                    return "8";
+                }
+            },
+    NINE
+            {
+                @Override
+                public String toString()
+                {
+                    return "9";
+                }
+            },
+    UNDERSCORE
+            {
+                @Override
+                public String toString()
+                {
+                    return "_";
+                }
+            },
+    COMMA
+            {
+        @Override
+        public String toString()
+        {
+            return ",";
+        }
+    },
+    QUESTION_MARK
+            {
+                @Override
+                public String toString()
+                {
+                    return "?";
+                }
+            };
 
     private static Letters[] letters = values();
 
