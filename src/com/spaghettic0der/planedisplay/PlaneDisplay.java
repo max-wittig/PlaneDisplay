@@ -1,9 +1,13 @@
 package com.spaghettic0der.planedisplay;
 
 
+import com.sun.rowset.internal.Row;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -12,6 +16,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 public class PlaneDisplay
 {
 
@@ -19,6 +25,8 @@ public class PlaneDisplay
     private Scene scene;
     private FlowPane letterFlowPane;
     private Display display;
+    private final int BUTTON_WIDTH = 70;
+    private final int BUTTON_HEIGHT = 100;
 
     public PlaneDisplay(Stage primaryStage)
     {
@@ -100,8 +108,10 @@ public class PlaneDisplay
                 public void run()
                 {
                     LetterButton button = new LetterButton(segment);
-                    button.setPrefSize(100, 100);
-                    button.setStyle("-fx-background-color: black; -fx-font-size: 40px; -fx-text-fill: white");
+                    button.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+                    button.setMinSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+                    button.setMaxSize(BUTTON_WIDTH, BUTTON_HEIGHT);
+                    button.setStyle("-fx-background-color: black; -fx-font-size: 300%; -fx-text-fill: white");
                     letterFlowPane.getChildren().add(button);
                 }
             });
@@ -112,9 +122,11 @@ public class PlaneDisplay
     {
         while(!display.isRealText())
         {
+            double currentHeight = -1;
             for(int i=0; i < letterFlowPane.getChildren().size(); i++)
             {
                 LetterButton currentButton = (LetterButton) letterFlowPane.getChildren().get(i);
+                double buttonHeight = currentButton.getLayoutY();
                 Segment currentSegment = currentButton.getSegment();
 
                 currentButton.updateText();
@@ -123,7 +135,6 @@ public class PlaneDisplay
                     currentSegment.nextLetter();
                     sleep();
                 }
-
             }
         }
     }
