@@ -64,7 +64,7 @@ public class Main extends Application
     {
         try
         {
-            Thread.sleep(30);
+            Thread.sleep(10);
         }
         catch (Exception e)
         {
@@ -80,14 +80,14 @@ public class Main extends Application
 
     private void addEmptyLetterButtons()
     {
-        for(Letter letter : display.getLetterArrayList())
+        for(Segment segment : display.getSegmentArrayList())
         {
             Platform.runLater(new Runnable()
             {
                 @Override
                 public void run()
                 {
-                    Button button = new Button(Letters.A.toString());
+                    LetterButton button = new LetterButton(segment);
                     button.setPrefSize(100, 100);
                     button.setStyle("-fx-background-color: black; -fx-font-size: 40px");
                     letterFlowPane.getChildren().add(button);
@@ -96,40 +96,24 @@ public class Main extends Application
         }
     }
 
-    private void setButtonText(Button button, String text)
-    {
-        Platform.runLater(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                button.setText(text);
-            }
-        });
-    }
-
     private void setRealLetters()
     {
-        int j=0;
-        for(Node currentNode : letterFlowPane.getChildren())
+        while(!display.isRealText())
         {
-            Button currentButton = (Button)currentNode;
-            for (int i = 0; i < Letters.values().length; i++)
+            for(int i=0; i < letterFlowPane.getChildren().size(); i++)
             {
-                final String buttonText = Letters.values()[i].toString();
-                setButtonText(currentButton, buttonText);
-                sleep();
-                System.out.println(buttonText.toCharArray()[0]);
-                System.out.println(display.getLetterArrayList().get(j).getRealLetter());
 
-                if(display.getLetterArrayList().get(j).getRealLetter()
-                        ==
-                        Letters.values()[i].toString().toCharArray()[0])
+                LetterButton currentButton = (LetterButton) letterFlowPane.getChildren().get(i);
+                Segment currentSegment = currentButton.getSegment();
+
+                currentButton.updateText();
+                if (!currentSegment.isRightLetter())
                 {
-                    break;
+                    currentSegment.nextLetter();
+                    sleep();
                 }
+
             }
-            j++;
         }
     }
 

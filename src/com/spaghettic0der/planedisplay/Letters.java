@@ -1,8 +1,6 @@
 package com.spaghettic0der.planedisplay;
 
 
-import com.sun.corba.se.spi.extension.ZeroPortPolicy;
-
 public enum Letters
 {
     A,
@@ -150,6 +148,14 @@ public enum Letters
                 {
                     return "?";
                 }
+            },
+    EXCLAMATION_MARK
+            {
+                @Override
+                public String toString()
+                {
+                    return "!";
+                }
             };
 
     private static Letters[] letters = values();
@@ -157,6 +163,18 @@ public enum Letters
     public Letters getNext()
     {
         return letters[(this.ordinal() + 1) % letters.length];
+    }
+
+    public static Letters fromChar(char c)
+    {
+        for(Letters currentLetter : letters)
+        {
+            if(currentLetter.toString().toCharArray()[0] == c)
+            {
+                return currentLetter;
+            }
+        }
+        return null;
     }
 
 }

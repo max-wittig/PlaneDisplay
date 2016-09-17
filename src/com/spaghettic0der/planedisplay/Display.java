@@ -5,16 +5,17 @@ import java.util.ArrayList;
 
 public class Display
 {
-    private ArrayList<Letter> letterArrayList;
+    private ArrayList<Segment> segmentArrayList;
+    private String realText;
 
     public Display()
     {
-        letterArrayList = new ArrayList<>();
+        segmentArrayList = new ArrayList<>();
     }
 
-    public ArrayList<Letter> getLetterArrayList()
+    public ArrayList<Segment> getSegmentArrayList()
     {
-        return letterArrayList;
+        return segmentArrayList;
     }
 
     private String getOptimizedText(String text)
@@ -22,14 +23,28 @@ public class Display
         return text.toUpperCase().replace(" ", "_");
     }
 
+    public boolean isRealText()
+    {
+        for(Segment segment : segmentArrayList)
+        {
+            if(segment.getRealLetter() != segment.getCurrentLetter())
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public void setText(String text)
     {
-        getLetterArrayList().clear();
+        getSegmentArrayList().clear();
         text = getOptimizedText(text);
+        realText = text;
         for(char c : text.toCharArray())
         {
-            Letter letter = new Letter(c);
-            letterArrayList.add(letter);
+            Letters letter = Letters.fromChar(c);
+            Segment segment = new Segment(letter);
+            segmentArrayList.add(segment);
         }
     }
 }
