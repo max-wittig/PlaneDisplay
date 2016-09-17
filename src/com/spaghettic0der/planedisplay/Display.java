@@ -20,7 +20,7 @@ public class Display
 
     private String getOptimizedText(String text)
     {
-        return text.toUpperCase().replace(" ", "_");
+        return text.toUpperCase().replace("ü", "ue").replace("ö", "oe").replace("ä", "ae");
     }
 
     public boolean isRealText()

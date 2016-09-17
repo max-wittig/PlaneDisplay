@@ -156,6 +156,22 @@ public enum Letters
                 {
                     return "!";
                 }
+            },
+    DOT
+            {
+                @Override
+                public String toString()
+                {
+                    return ".";
+                }
+            },
+    SPACE
+            {
+                @Override
+                public String toString()
+                {
+                    return " ";
+                }
             };
 
     private static Letters[] letters = values();
