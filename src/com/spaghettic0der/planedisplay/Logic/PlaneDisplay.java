@@ -27,14 +27,15 @@ public class PlaneDisplay
     {
         random = new Random();
         initUI();
-        initDisplay();
+        display = new Display();
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-    public void show(String text, int delay)
+    public void show(String text, int delay, Style style)
     {
         display.setText(text);
+        display.setStyle(style);
         this.delay = delay;
         updateAndWait();
 
@@ -110,6 +111,20 @@ public class PlaneDisplay
         }
     }
 
+    private void setLetter(int i)
+    {
+        if(display.getStyle() != Style.RANDOM || random.nextFloat() < display.getChance())
+        {
+            LetterButton currentButton = (LetterButton) letterFlowPane.getChildren().get(i);
+            Segment currentSegment = currentButton.getSegment();
+            currentButton.updateText();
+            if (!currentSegment.isRightLetter())
+            {
+                currentSegment.nextLetter();
+                sleep();
+            }
+        }
+    }
 
     private void setRealLetters()
     {
@@ -117,18 +132,18 @@ public class PlaneDisplay
         {
             for(int i=0; i < letterFlowPane.getChildren().size(); i++)
             {
-                if(display.getStyle() != Style.RANDOM || random.nextFloat() < display.getChance())
+                if(display.getStyle() == Style.SINGLE)
                 {
-                    LetterButton currentButton = (LetterButton) letterFlowPane.getChildren().get(i);
-                    Segment currentSegment = currentButton.getSegment();
-                    currentButton.updateText();
-                    if (!currentSegment.isRightLetter())
+                    for(int j=0; j < Letters.values().length; j++)
                     {
-                        currentSegment.nextLetter();
-                        sleep();
+                        setLetter(i);
                     }
-
                 }
+                else
+                {
+                    setLetter(i);
+                }
+
             }
         }
     }
@@ -139,10 +154,5 @@ public class PlaneDisplay
         addEmptyLetterButtons();
         sleep();
         setRealLetters();
-    }
-
-    private void initDisplay()
-    {
-        display = new Display();
     }
 }

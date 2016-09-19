@@ -7,7 +7,7 @@ public class Display
 {
     private ArrayList<Segment> segmentArrayList;
     private String realText;
-    private Style style = Style.RANDOM;
+    private Style style;
     private float chance = 0.1f;
 
     public String getRealText()
@@ -23,6 +23,16 @@ public class Display
     public float getChance()
     {
         return chance;
+    }
+
+    public void setStyle(Style style)
+    {
+        this.style = style;
+    }
+
+    public void setChance(float chance)
+    {
+        this.chance = chance;
     }
 
     public Display()
