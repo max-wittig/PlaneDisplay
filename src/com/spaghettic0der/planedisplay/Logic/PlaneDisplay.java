@@ -1,22 +1,14 @@
-package com.spaghettic0der.planedisplay;
+package com.spaghettic0der.planedisplay.Logic;
 
 
-import com.sun.rowset.internal.Row;
+import com.spaghettic0der.planedisplay.UI.LetterButton;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
+import java.util.Random;
 
 public class PlaneDisplay
 {
@@ -27,33 +19,33 @@ public class PlaneDisplay
     private Display display;
     private final int BUTTON_WIDTH = 70;
     private final int BUTTON_HEIGHT = 100;
+    private int delay = 10;
+    private Random random;
+
 
     public PlaneDisplay(Stage primaryStage)
     {
-        initDisplay();
+        random = new Random();
         initUI();
-
+        initDisplay();
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
+    public void show(String text, int delay)
+    {
+        display.setText(text);
+        this.delay = delay;
+        updateAndWait();
+
+    }
+
     private void initUI()
     {
-        TextField textField = new TextField();
-        Button showButton = new Button("SHOW");
-        showButton.setOnAction(new EventHandler<ActionEvent>()
-        {
-            @Override
-            public void handle(ActionEvent event)
-            {
-                display.setText(textField.getText());
-                updateAndWait();
-            }
-        });
-        HBox inputHBox = new HBox(textField, showButton);
+
         letterFlowPane = new FlowPane();
         letterFlowPane.setMinSize(1800, 500);
-        root = new VBox(inputHBox, letterFlowPane);
+        root = new VBox(letterFlowPane);
         root.setStyle("-fx-background-color: black");
         scene = new Scene(root);
     }
@@ -76,7 +68,7 @@ public class PlaneDisplay
     {
         try
         {
-            Thread.sleep(5);
+            Thread.sleep(delay);
         }
         catch (Exception e)
         {
@@ -118,22 +110,24 @@ public class PlaneDisplay
         }
     }
 
+
     private void setRealLetters()
     {
         while(!display.isRealText())
         {
-            double currentHeight = -1;
             for(int i=0; i < letterFlowPane.getChildren().size(); i++)
             {
-                LetterButton currentButton = (LetterButton) letterFlowPane.getChildren().get(i);
-                double buttonHeight = currentButton.getLayoutY();
-                Segment currentSegment = currentButton.getSegment();
-
-                currentButton.updateText();
-                if (!currentSegment.isRightLetter())
+                if(display.getStyle() != Style.RANDOM || random.nextFloat() < display.getChance())
                 {
-                    currentSegment.nextLetter();
-                    sleep();
+                    LetterButton currentButton = (LetterButton) letterFlowPane.getChildren().get(i);
+                    Segment currentSegment = currentButton.getSegment();
+                    currentButton.updateText();
+                    if (!currentSegment.isRightLetter())
+                    {
+                        currentSegment.nextLetter();
+                        sleep();
+                    }
+
                 }
             }
         }

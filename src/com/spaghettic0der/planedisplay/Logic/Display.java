@@ -1,4 +1,4 @@
-package com.spaghettic0der.planedisplay;
+package com.spaghettic0der.planedisplay.Logic;
 
 
 import java.util.ArrayList;
@@ -7,6 +7,23 @@ public class Display
 {
     private ArrayList<Segment> segmentArrayList;
     private String realText;
+    private Style style = Style.RANDOM;
+    private float chance = 0.1f;
+
+    public String getRealText()
+    {
+        return realText;
+    }
+
+    public Style getStyle()
+    {
+        return style;
+    }
+
+    public float getChance()
+    {
+        return chance;
+    }
 
     public Display()
     {

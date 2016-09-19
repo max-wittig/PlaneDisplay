@@ -1,4 +1,4 @@
-package com.spaghettic0der.planedisplay;
+package com.spaghettic0der.planedisplay.Logic;
 
 public class Segment
 {

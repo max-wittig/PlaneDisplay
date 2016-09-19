@@ -1,5 +1,6 @@
 package com.spaghettic0der.planedisplay;
 
+import com.spaghettic0der.planedisplay.Logic.PlaneDisplay;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -15,6 +16,8 @@ public class Main extends Application
     @Override
     public void start(Stage primaryStage) throws Exception
     {
-        new PlaneDisplay(primaryStage);
+        PlaneDisplay planeDisplay = new PlaneDisplay(primaryStage);
+        planeDisplay.show("It is a long established fact that a reader will be distracted by the readable content", 100);
+        //planeDisplay.show("Whatever dude", 100);
     }
 }
