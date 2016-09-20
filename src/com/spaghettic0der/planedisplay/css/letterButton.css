@@ -1,0 +1,11 @@
+.button
+{
+    -fx-background-color: #424242;
+    -fx-font-size: 300%;
+    -fx-text-fill: white;
+}
+
+.button .text
+{
+    -fx-strikethrough: false;
+}

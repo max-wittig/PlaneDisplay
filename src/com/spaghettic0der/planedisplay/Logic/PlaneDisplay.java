@@ -3,6 +3,7 @@ package com.spaghettic0der.planedisplay.Logic;
 
 import com.spaghettic0der.planedisplay.UI.LetterButton;
 import javafx.application.Platform;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
@@ -47,7 +48,7 @@ public class PlaneDisplay
         letterFlowPane = new FlowPane();
         letterFlowPane.setMinSize(1800, 500);
         root = new VBox(letterFlowPane);
-        root.setStyle("-fx-background-color: black");
+        root.setStyle("-fx-background-color: lightgrey");
         scene = new Scene(root);
     }
 
@@ -104,8 +105,9 @@ public class PlaneDisplay
                     button.setPrefSize(BUTTON_WIDTH, BUTTON_HEIGHT);
                     button.setMinSize(BUTTON_WIDTH, BUTTON_HEIGHT);
                     button.setMaxSize(BUTTON_WIDTH, BUTTON_HEIGHT);
-                    button.setStyle("-fx-background-color: black; -fx-font-size: 300%; -fx-text-fill: white");
+                    button.getStylesheets().addAll(getClass().getResource("../css/letterButton.css").toExternalForm());
                     letterFlowPane.getChildren().add(button);
+                    FlowPane.setMargin(button, new Insets(8, 1, 1, 1));
                 }
             });
         }
